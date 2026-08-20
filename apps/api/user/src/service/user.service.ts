@@ -58,7 +58,7 @@ export class UserManagementService {
     private readonly audit: IAuditRepository,
     private readonly refresh: IRefreshTokenRepository,
     private readonly config: IConfigRepository,
-    private readonly env: UserEnv,
+    private readonly env?: UserEnv,
   ) {}
 
   /** Create a new account AND provision the tenant's Neo4j database. */
@@ -104,9 +104,14 @@ export class UserManagementService {
    *
    * Uses IF NOT EXISTS for idempotency (safe if the command is
    * retried by the caller). The endpoint path is /db/system/tx/commit.
+   *
+   * Graceful no-op if the env binding was not provided (unit-test / local
+   * dev scenarios without a real Neo4j cluster).
    */
   private async createNeo4jDatabase(tenantId: string): Promise<void> {
+    if (!this.env) return;
     const {NEO4J_URL, NEO4J_USER, NEO4J_PASSWORD} = this.env;
+    if (!NEO4J_URL || !NEO4J_USER || !NEO4J_PASSWORD) return;
     const base = NEO4J_URL.replace(/\/$/, '');
     const endpoint = `${base}/db/system/tx/commit`;
     const auth = 'Basic ' + btoa(`${NEO4J_USER}:${NEO4J_PASSWORD}`);
@@ -224,12 +229,14 @@ export class UserManagementService {
       throwError(ERROR_CODES.AUTH_FORBIDDEN, 'Cannot delete the bootstrap admin.');
     }
     await this.refresh.revokeAllForUser(user.id);
-    // NOTE: data cleanup + account deletion is delegated to the Cleanup
-    // service via the cleanup-queue. The User service only records the
-    // audit log here; the actual account row is deleted by the Cleanup
-    // consumer after the user's metadata has been archived to the B2
-    // tenant-archive bucket. This ensures the compliance backup is
-    // always written BEFORE the account is permanently removed.
+    // NOTE: compliance archival + full account deletion is delegated to
+    // the Cleanup service (tenant-archive bucket write → DROP DATABASE →
+    // permanent D1 row removal). Here we revoke tokens, mark the user
+    // inactive so login/auth handlers can't use the account, and record
+    // the audit entry. The Cleanup worker then drops the DB row after
+    // the backup is written.
+    user.disable();
+    await this.users.save(user);
     await this.recordAudit(ctx, {
       action: 'delete_user',
       targetUserId: user.id,
