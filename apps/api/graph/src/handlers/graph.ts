@@ -64,7 +64,10 @@ function tenant(c: GraphContext): string {
   if (!tid) {
     throwError(ERROR_CODES.AUTH_FORBIDDEN, 'Missing tenant id.');
   }
-  return tid;
+  // `throwError` returns `never`, but when imported across modules TypeScript
+  // does not always narrow `tid` inside this branch. Use a non-null assertion
+  // (semantically safe: we would have thrown above for the undefined case).
+  return tid!;
 }
 
 /** GET /ontology */

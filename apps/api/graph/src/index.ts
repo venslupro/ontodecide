@@ -182,7 +182,7 @@ const situationRoute = createRoute({
   request: {
     params: z.object({id: z.string()}),
     query: z.object({
-      depth: z.string().optional().openapi({description: 'Traversal depth (1..3).'}),
+      depth: z.string().openapi({description: 'Traversal depth (1..3).'}).optional(),
     }),
   },
   responses: {
