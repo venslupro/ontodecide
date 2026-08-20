@@ -84,11 +84,12 @@ env:
 #       Cloudflare API token with these permissions:
 #         Account.Account Settings:Read
 #         D1:Edit
-#         Workers R2 Storage:Edit
 #         Workers KV Storage:Edit
 #         Workers Queues:Edit
 #         Workers Scripts:Edit
 #         Workers AI:Read
+#       (Note: Workers R2 Storage:Edit is no longer required —
+#        the project uses Backblaze B2 for object storage instead.)
 #
 #   CLOUDFLARE_ACCOUNT_ID
 #       (Optional — only if the token lacks Account List scope)
@@ -105,10 +106,19 @@ env:
 #
 #   TF_R2_ACCESS_KEY
 #       R2 Object Read & Write access key id (bucket-scoped to
-#       $TF_STATE_BUCKET). Used for the Terraform state backend.
+#       $TF_STATE_BUCKET). Used for the Terraform state backend ONLY
+#       (Terraform remote state — not business data storage).
 #
 #   TF_R2_SECRET_KEY
-#       Matching R2 secret access key.
+#       Matching R2 secret access key for state backend.
+#
+#   TF_VAR_b2_application_key_id
+#       Backblaze B2 application key ID (S3-compatible access key).
+#       Created in B2 dashboard → App Keys → Add Application Key.
+#       Permissions: Read and Write for both buckets.
+#
+#   TF_VAR_b2_application_key
+#       Matching B2 application key (S3-compatible secret key).
 #
 # VARIABLES (Settings → Secrets and variables → Actions → Variables):
 # ─────────────────────────────────────────────────────────────
@@ -118,6 +128,10 @@ env:
 #   TF_VAR_cloudflare_account_id
 #       (Optional — override via Variable if you don't want to
 #       create a second secret for it.)
+#
+#   TF_VAR_b2_region
+#       Backblaze B2 region code, e.g. "us-west-004".
+#       Find it in B2 dashboard → Buckets → bucket details.
 #
 #   TF_VAR_default_provider   (optional)
 #   TF_VAR_workers_ai_model   (optional)
@@ -334,9 +348,13 @@ jobs:
           TF_VAR_jwt_secret: ${{ secrets.TF_VAR_jwt_secret }}
           TF_VAR_neo4j_password: ${{ secrets.TF_VAR_neo4j_password }}
           TF_VAR_cloudflare_account_id_or_workers_dev: ${{ secrets.TF_VAR_cloudflare_account_id_or_workers_dev }}
+          # Backblaze B2 credentials (S3-compatible)
+          TF_VAR_b2_application_key_id: ${{ secrets.TF_VAR_b2_application_key_id }}
+          TF_VAR_b2_application_key: ${{ secrets.TF_VAR_b2_application_key }}
           # Input variables — non-sensitive
           TF_VAR_neo4j_url: ${{ vars.TF_VAR_neo4j_url }}
           TF_VAR_cloudflare_account_id: ${{ vars.TF_VAR_cloudflare_account_id }}
+          TF_VAR_b2_region: ${{ vars.TF_VAR_b2_region }}
           TF_VAR_default_provider: ${{ vars.TF_VAR_default_provider }}
           TF_VAR_workers_ai_model: ${{ vars.TF_VAR_workers_ai_model }}
           ENV_TAG: ${{ github.event.inputs.environment || 'production' }}

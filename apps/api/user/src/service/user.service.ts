@@ -179,9 +179,12 @@ export class UserManagementService {
       throwError(ERROR_CODES.AUTH_FORBIDDEN, 'Cannot delete the bootstrap admin.');
     }
     await this.refresh.revokeAllForUser(user.id);
-    // NOTE: data cleanup is delegated to the Cleanup service via the
-    // cleanup-queue. The User service only removes the auth record.
-    await this.users.delete(userId);
+    // NOTE: data cleanup + account deletion is delegated to the Cleanup
+    // service via the cleanup-queue. The User service only records the
+    // audit log here; the actual account row is deleted by the Cleanup
+    // consumer after the user's metadata has been archived to the B2
+    // tenant-archive bucket. This ensures the compliance backup is
+    // always written BEFORE the account is permanently removed.
     await this.recordAudit(ctx, {
       action: 'delete_user',
       targetUserId: user.id,
