@@ -89,6 +89,19 @@ resource "cloudflare_worker_script" "user_service" {
     name = "JWT_SECRET"
     text = var.jwt_secret
   }
+  # Neo4j AuraDB bindings — User Service creates per-tenant databases.
+  plain_text_binding {
+    name = "NEO4J_URL"
+    text = var.neo4j_url
+  }
+  plain_text_binding {
+    name = "NEO4J_USER"
+    text = var.neo4j_user
+  }
+  secret_text_binding {
+    name = "NEO4J_PASSWORD"
+    text = var.neo4j_password
+  }
 }
 
 # ============================================================

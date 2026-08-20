@@ -27,6 +27,7 @@ import {
   type B2Client,
   createArchiveB2Client,
   createIngestionB2Client,
+  dropTenantDbStatement,
 } from '@ontodecide/shared';
 import type {CleanupEnv} from '../types/env.js';
 import {drizzle} from 'drizzle-orm/d1';
@@ -170,21 +171,24 @@ async function archiveUserMetadata(
   return true;
 }
 
-/** Delete all tenant-owned nodes + relations in Neo4j. */
+/**
+ * Drop the tenant's entire Neo4j logical database.
+ *
+ * This is a SINGLE SYSTEM-LEVEL command (DROP DATABASE) — it removes
+ * ALL nodes, relationships, indexes, and constraints belonging to
+ * the tenant in one atomic operation. Far faster and cleaner than
+ * the previous `MATCH (n {tenant_id}) DETACH DELETE n` node-by-node
+ * approach, which was vulnerable to partial deletes and
+ * OOMs on large tenant graphs.
+ *
+ * Database names follow the convention in shared/utils/neo4j-db.ts
+ * (tenant_<sanitized_tenantId>).
+ */
 async function deleteNeo4jTenant(tenantId: string, env: CleanupEnv): Promise<number> {
-  const endpoint = `${env.NEO4J_URL.replace(/\/$/, '')}/db/neo4j/tx/commit`;
+  const endpoint = `${env.NEO4J_URL.replace(/\/$/, '')}/db/system/tx/commit`;
   const auth = 'Basic ' + btoa(`${env.NEO4J_USER}:${env.NEO4J_PASSWORD}`);
   const body = JSON.stringify({
-    statements: [
-      {
-        statement: `
-          MATCH (n {tenant_id: $tenantId})
-          DETACH DELETE n
-          RETURN count(n) as deleted
-        `,
-        parameters: {tenantId},
-      },
-    ],
+    statements: [{statement: dropTenantDbStatement(tenantId)}],
   });
   try {
     const response = await fetch(endpoint, {
@@ -199,25 +203,22 @@ async function deleteNeo4jTenant(tenantId: string, env: CleanupEnv): Promise<num
     if (!response.ok) {
       throwError(
           ERROR_CODES.GRAPH_NEO4J_UNAVAILABLE,
-          `Neo4j HTTP ${response.status}: ${await response.text()}`,
+          `Neo4j DROP DATABASE HTTP ${response.status}: ${await response.text()}`,
       );
     }
-    const data = (await response.json()) as {
-      results?: Array<{data?: Array<{row?: unknown[]}>}>;
-      errors?: unknown[];
-    };
+    const data = (await response.json()) as {errors?: Array<{code: string; message: string}>};
     if (data.errors && data.errors.length > 0) {
       throwError(ERROR_CODES.GRAPH_NEO4J_UNAVAILABLE,
-          `Neo4j errors: ${JSON.stringify(data.errors)}`);
+          `Neo4j DROP DATABASE errors: ${JSON.stringify(data.errors)}`);
     }
-    const row = data.results?.[0]?.data?.[0]?.row;
-    return Number(row?.[0] ?? 0);
+    // DROP DATABASE doesn't return a row count; return 1 for success.
+    return 1;
   } catch (err) {
-    // Neo4j unreachable — record the failure but continue so D1/KV/B2
-    // are still purged. The next cron run will retry the graph cleanup.
+    // Neo4j unreachable — propagate; the consumer will mark this
+    // tenant as failed, and the next cron run will retry.
     throwError(
         ERROR_CODES.GRAPH_NEO4J_UNAVAILABLE,
-        `Neo4j cleanup failed: ${err instanceof Error ? err.message : String(err)}`,
+        `Neo4j cleanup (DROP DATABASE) failed: ${err instanceof Error ? err.message : String(err)}`,
     );
   }
 }
