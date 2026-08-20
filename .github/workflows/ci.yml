@@ -30,10 +30,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Install pnpm using the EXACT version declared in package.json
+      # ("packageManager" field, Node.js corepack standard). DO NOT add a
+      # `version` key here — specifying pnpm in BOTH places triggers
+      # ERR_PNPM_BAD_PM_VERSION "Multiple versions of pnpm specified".
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
+        # No `with.version` — version comes from package.json#packageManager
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
