@@ -4,7 +4,12 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "composite": true,
-    "tsBuildInfoFile": "./.tsbuildinfo"
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    "baseUrl": ".",
+    "paths": {
+      "@ontodecide/shared":     ["../../../apps/shared/src/index.ts"],
+      "@ontodecide/shared/*":   ["../../../apps/shared/src/*"]
+    }
   },
   "references": [{"path": "../../shared"}],
   "include": ["src/**/*"],

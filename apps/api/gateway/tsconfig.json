@@ -4,7 +4,19 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "composite": true,
-    "tsBuildInfoFile": "./.tsbuildinfo"
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    // Resolve @ontodecide/shared packages directly from their SOURCE
+    // (apps/shared/src) so the typecheck phase does not require the
+    // shared package to have been previously built (dist/*.d.ts may be
+    // absent on a fresh checkout or in CI). The package.json `exports`
+    // map (pointing at dist/*.d.ts) is still used by bundlers / final
+    // publish flows — this mapping is only for the TypeScript compiler
+    // and IDE jump-to-definition during development.
+    "baseUrl": ".",
+    "paths": {
+      "@ontodecide/shared":     ["../../../apps/shared/src/index.ts"],
+      "@ontodecide/shared/*":   ["../../../apps/shared/src/*"]
+    }
   },
   "references": [{"path": "../../shared"}],
   "include": ["src/**/*"],
