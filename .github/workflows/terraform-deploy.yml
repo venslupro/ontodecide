@@ -9,16 +9,21 @@
 # tenant-archive) AND the Terraform remote-state bucket all live
 # in B2 now.
 #
-# Two-stage pipeline (CFT standard):
-#   Stage 1 "plan"  — automatic on EVERY branch. Emits a plan
-#                     artifact + human-readable diff summary.
-#                     On branches / forks WITHOUT the required
-#                     secrets, Plan is gracefully SKIPPED (exit
-#                     0 with an informative GITHUB_STEP_SUMMARY,
-#                     never a red failure).
-#   Stage 2 "apply" — EXPLICITLY requires: (a) approval of the
-#                     "production" GitHub Environment, AND
-#                     (b) running from `refs/heads/main`.
+# Three-stage pipeline (CFT standard + CI/CD Worker deploy):
+#   Stage 1 "plan"           — automatic on EVERY branch. Emits a plan
+#                              artifact + human-readable diff summary.
+#                              On branches / forks WITHOUT the required
+#                              secrets, Plan is gracefully SKIPPED (exit
+#                              0 with an informative GITHUB_STEP_SUMMARY,
+#                              never a red failure).
+#   Stage 2 "apply"          — EXPLICITLY requires: (a) approval of the
+#                              "production" GitHub Environment, AND
+#                              (b) running from `refs/heads/main`.
+#   Stage 3 "deploy-workers" — chains after apply on main ONLY. Builds
+#                              Worker code, substitutes Terraform output
+#                              IDs into wrangler.toml, deploys all 6
+#                              Workers via `wrangler deploy --config`,
+#                              sets runtime secrets, runs D1 migrations.
 #
 # ==================================================================
 # GITHUB CONFIGURATION REFERENCE — Google-style config matrix
@@ -400,7 +405,7 @@ jobs:
             echo "Repair via Settings → Secrets and variables → Actions, then re-run Plan + Approve." >&2
             exit 1
           fi
-          echo "Preflight OK: all ${!#SPEC[@]} required items present."
+          echo "Preflight OK: all ${#SPEC[@]} required items present."
 
       - name: Terraform Init (B2 backend)
         working-directory: ${{ env.TF_WORKING_DIR }}
@@ -561,6 +566,125 @@ jobs:
               "B2 Region" "-" "${B2_REGION}" "output: \`b2_region\`"
 
             echo
-            echo "**Next step:** paste the IDs/names above into each Worker's Dashboard → Variables & Secrets,"
-            echo "then trigger Workers Builds (next push to \`main\` will auto deploy)."
+            echo "**Next step:** Worker code deployment runs automatically in the"
+            echo "`deploy-workers` job below — no manual Dashboard paste needed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  # ================================================================
+  # Stage 3 — Deploy Workers (main branch only, chains after apply)
+  #
+  # Replaces the Cloudflare Workers Builds Dashboard integration with
+  # a version-controlled CI/CD pipeline step.  After `terraform apply`
+  # creates/updates all Cloudflare resources (D1, KV, Queues, B2, DOs),
+  # this job:
+  #   1. Builds the Worker code (turbo run build)
+  #   2. Reads `terraform output -json` for real resource IDs
+  #   3. Substitutes REPLACE_WITH_* placeholders in each wrangler.toml
+  #   4. Deploys each of the 6 Workers via `wrangler deploy --config`
+  #   5. Sets runtime secrets via `wrangler secret put`
+  #   6. Runs D1 migrations (migrate.sh --remote)
+  #
+  # No separate approval gate — the `apply` job's `production`
+  # environment approval covers the entire main-branch pipeline.
+  # ================================================================
+  deploy-workers:
+    name: Deploy Worker Code
+    needs: apply
+    if: github.ref == 'refs/heads/main' && needs.apply.result == 'success'
+    runs-on: ubuntu-latest
+    env:
+      # Wrangler auth
+      CLOUDFLARE_API_TOKEN:  ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # Terraform state access (for `terraform output`)
+      AWS_ACCESS_KEY_ID:         ${{ secrets.TF_B2_STATE_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY:     ${{ secrets.TF_B2_STATE_APPLICATION_KEY }}
+      AWS_DEFAULT_REGION:        ${{ vars.TF_VAR_b2_region }}
+      AWS_EC2_METADATA_DISABLED: true
+      # Worker runtime secrets (mapped from TF_VAR_* GitHub Secrets)
+      JWT_SECRET:       ${{ secrets.TF_VAR_jwt_secret }}
+      NEO4J_PASSWORD:   ${{ secrets.TF_VAR_neo4j_password }}
+      B2_KEY_ID:        ${{ secrets.TF_VAR_b2_application_key_id }}
+      B2_KEY:           ${{ secrets.TF_VAR_b2_application_key }}
+      # Non-secret values for placeholder substitution
+      NEO4J_URL:              ${{ vars.TF_VAR_neo4j_url }}
+      WORKERS_DEV_SUBDOMAIN:  ${{ secrets.TF_VAR_cloudflare_account_id_or_workers_dev }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ---- Setup Terraform (to read `terraform output`) ----
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      - name: Terraform Init (B2 backend — read-only state access)
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        env:
+          B2_REGION: ${{ vars.TF_VAR_b2_region }}
+          ENV:       ${{ github.event.inputs.environment || 'production' }}
+        run: |
+          STATE_KEY="${ENV}/terraform.tfstate"
+          B2_ENDPOINT="https://s3.${B2_REGION}.backblazeb2.com"
+
+          cat > backend-config-overrides.tfvars <<EOF
+          bucket     = "${TF_STATE_BUCKET}"
+          key        = "${STATE_KEY}"
+          endpoints = {
+            s3 = "${B2_ENDPOINT}"
+          }
+          EOF
+
+          terraform init -input=false -backend-config=backend-config-overrides.tfvars
+
+      # ---- Setup Node.js 22 + pnpm ----
+      - name: Setup pnpm (corepack)
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline
+
+      - name: Build Workers
+        run: pnpm turbo run build
+
+      # ---- Deploy all 6 Workers ----
+      # scripts/deploy-workers.sh:
+      #   1. Reads terraform output -json for D1/KV IDs
+      #   2. Substitutes REPLACE_WITH_* placeholders in each wrangler.toml
+      #   3. Deploys each Worker via wrangler deploy --config
+      #   4. Sets runtime secrets via wrangler secret put
+      - name: Deploy Workers
+        run: ./scripts/deploy-workers.sh
+
+      # ---- Run D1 migrations ----
+      - name: Apply D1 migrations
+        run: ./scripts/migrate.sh --remote
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment || 'production' }}
+
+      - name: Deploy summary
+        if: always()
+        run: |
+          {
+            echo "### Worker Deployment Summary"
+            echo ""
+            echo "| Step | Status |"
+            echo "|---|---|"
+            echo "| Build Workers | ${{ job.status }} |"
+            echo "| Deploy Workers | ${{ job.status }} |"
+            echo "| D1 Migrations | ${{ job.status }} |"
+            echo ""
+            echo "All 6 Workers deployed via CI/CD pipeline."
+            echo "Runtime secrets set via \`wrangler secret put\`."
+            echo "D1 migrations applied to remote database."
           } >> "$GITHUB_STEP_SUMMARY"
