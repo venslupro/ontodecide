@@ -183,10 +183,8 @@ jobs:
   apply:
     name: Apply (Manual Approval Required)
     needs: plan
-    # Only run on main push / manual dispatch — NEVER on PR.
-    if: |
-      github.event_name != 'pull_request' &&
-      (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+    # Apply ONLY on main branch — never on PR or feature branches.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     # ↓↓↓ This gate is CRITICAL for the "Shift Left" promise.
     # Create the `production` environment in Repo → Settings →
