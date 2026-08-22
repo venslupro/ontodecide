@@ -10,24 +10,6 @@ variable "account_id" {
   sensitive   = true
 }
 
-variable "api_token" {
-  description = <<-EOT
-    Cloudflare API Token。仅作文档参考；实际鉴权由
-    CLOUDFLARE_API_TOKEN 环境变量注入 Provider (见 providers.tf)。
-    所需权限：
-      Workers Scripts: Edit
-      Workers KV Storage: Edit
-      D1: Edit
-      Workers Routes: Edit
-      Queues: Edit
-      Account Settings: Read
-      Zone: Read (当使用自定义域名 zone_id 时)
-  EOT
-  type      = string
-  default   = ""
-  sensitive = true
-}
-
 variable "zone_id" {
   description = "(可选) 自定义域名所在 Cloudflare Zone ID。留空则跳过域名资源创建。"
   type        = string
