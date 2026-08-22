@@ -161,13 +161,11 @@ jobs:
       - name: Plan
         id: plan
         run: |
-          terraform plan \
-            -input=false \
-            -out=tfplan.binary \
-            -var-file=terraform.tfvars 2>/dev/null || \
-          terraform plan \
-            -input=false \
-            -out=tfplan.binary
+          if [ -f terraform.tfvars ]; then
+            terraform plan -input=false -out=tfplan.binary -var-file=terraform.tfvars
+          else
+            terraform plan -input=false -out=tfplan.binary
+          fi
 
       - name: Render plan to JSON artifact
         run: terraform show -json tfplan.binary > tfplan.json
@@ -236,11 +234,11 @@ jobs:
             terraform apply -input=false tfplan.binary
           else
             echo ">>> Saved plan not found — generating fresh plan and applying <<<"
-            terraform apply \
-              -input=false \
-              -auto-approve \
-              -var-file=terraform.tfvars 2>/dev/null || \
-            terraform apply -input=false -auto-approve
+            if [ -f terraform.tfvars ]; then
+              terraform apply -input=false -auto-approve -var-file=terraform.tfvars
+            else
+              terraform apply -input=false -auto-approve
+            fi
           fi
 
       - name: Print outputs (resource IDs / names for human review)
