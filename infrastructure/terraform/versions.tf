@@ -12,7 +12,7 @@ terraform {
   # Remote state backend: Backblaze B2 (S3-compatible)
   #
   # STATIC config — bucket / endpoint / region are the same
-  # across environments (single B2 bucket in us-west-004).
+  # across environments (single B2 bucket in us-east-005).
   # Credentials come from AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
   # env vars (reusing B2_KEY_ID / B2_KEY GitHub secrets).
   #
@@ -30,10 +30,10 @@ terraform {
   backend "s3" {
     bucket = "ontodecide-prd-terraform-state"
     key    = "ontodecide/terraform.tfstate"
-    region = "us-west-004"
+    region = "us-east-005"
 
     endpoints {
-      s3 = "https://s3.us-west-004.backblazeb2.com"
+      s3 = "https://s3.us-east-005.backblazeb2.com"
     }
 
     # B2 is not AWS — skip all AWS-specific validations

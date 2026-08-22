@@ -79,7 +79,7 @@ that CI runs share state. This prevents the "plan shows +create for all
 resources but apply fails because they already exist" problem.
 
 1. Create a B2 bucket named `ontodecide-prd-terraform-state` (region:
-   `us-west-004`). Tag it with the same 4D governance tags as other B2
+   `us-east-005`). Tag it with the same 4D governance tags as other B2
    buckets (Environment / Project / Service=tf-state / Lifecycle).
 2. Create or reuse a B2 Application Key with **read+write** on this
    bucket. The existing `B2_KEY_ID` / `B2_KEY` GitHub secrets (used by
