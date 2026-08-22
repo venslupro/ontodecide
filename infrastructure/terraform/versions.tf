@@ -32,7 +32,7 @@ terraform {
     key    = "ontodecide/terraform.tfstate"
     region = "us-east-005"
 
-    endpoints {
+    endpoints = {
       s3 = "https://s3.us-east-005.backblazeb2.com"
     }
 
