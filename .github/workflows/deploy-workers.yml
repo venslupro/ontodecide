@@ -369,10 +369,10 @@ jobs:
     env:
       CLOUDFLARE_API_TOKEN:  ${{ secrets.CF_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-      # ---- D1 name resolution (matches Terraform variables.tf defaults) ----
-      # Repository Variables → Settings → Variables and secrets → Actions
-      PROJECT_NAME: ${{ vars.TF_PROJECT || 'ontodecide' }}
-      ENVIRONMENT:  ${{ github.event.inputs.environment || vars.TF_ENVIRONMENT || 'production' }}
+      # ---- D1 name resolution (matches Terraform variables.tf) ----
+      # Project name = GitHub repo name; environment defaults to production.
+      PROJECT_NAME: ${{ github.event.repository.name }}
+      ENVIRONMENT:  ${{ github.event.inputs.environment || 'production' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -136,13 +136,18 @@ Then paste each ID into the matching `[[kv_namespaces]]` block.
 
 ### 3.1 `terraform.yml` — Infrastructure pipeline
 
+The Terraform pipeline **reuses** the same secrets already configured for
+`deploy-workers.yml` — no extra secrets or variables to create.
+
 | Kind      | Name                         | Description                                |
 | --------- | ---------------------------- | ------------------------------------------ |
-| **Secret**| `TF_API_TOKEN_CLOUDFLARE`    | Wide-scope Cloudflare API token (§2.2)     |
-| Variable  | `TF_ACCOUNT_ID`              | 32-hex Cloudflare account ID               |
+| **Secret**| `CF_API_TOKEN`               | Wide-scope Cloudflare API token (shared)   |
+| **Secret**| `CF_ACCOUNT_ID`              | 32-hex Cloudflare account ID (shared)     |
 | Variable  | `TF_ZONE_ID`                 | (optional) Zone ID for `api.ontodecide.com`|
-| Variable  | `TF_PROJECT`                 | Default `ontodecide` — prefix on all names|
-| Variable  | `TF_ENVIRONMENT`             | Default `production` — e.g. `staging`      |
+
+> **Project name** is derived automatically from the GitHub repo name
+> (`github.event.repository.name`). **Environment** defaults to
+> `production` and can be overridden via `workflow_dispatch` input.
 
 **Environment protection** (required — the whole point of Shift Left):
 1. Repo → Settings → Environments → **New environment** → `production`
@@ -164,7 +169,9 @@ locked at the reviewed-plan stage.
 | Secret    | `NEO4J_PASSWORD`             | graph + cleanup                            |
 | Secret    | `B2_KEY_ID` / `B2_KEY`       | ingestion + cleanup                        |
 | Secret    | `OPENAI_API_KEY` / …         | ai only (all optional)                     |
-| Variable  | `TF_PROJECT` / `TF_ENVIRONMENT` | read by `migrate-d1` job to build D1 name |
+
+> The `migrate-d1` job derives project name from the GitHub repo name
+> and environment from the deploy input (defaults to `production`).
 
 ---
 

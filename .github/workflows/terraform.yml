@@ -27,16 +27,17 @@
 # REQUIRED GITHUB SECRETS / VARS:
 #   (Set via Repo → Settings → Secrets and variables → Actions)
 #
-#   Secrets:
-#     TF_API_TOKEN_CLOUDFLARE — Cloudflare API token with wide
-#                               admin scopes (D1 · KV · Queue ·
-#                               Worker Script · Worker Domain ·
-#                               Account Settings read).
-#   Variables:
-#     TF_ACCOUNT_ID  — Cloudflare Account ID (32 hex chars)
+#   Secrets (shared with deploy-workers.yml):
+#     CF_API_TOKEN   — Cloudflare API token with wide admin scopes
+#                      (D1 · KV · Queue · Worker Script ·
+#                       Worker Domain · Account Settings read).
+#     CF_ACCOUNT_ID  — Cloudflare Account ID (32 hex chars)
+#   Variables (optional):
 #     TF_ZONE_ID     — (optional) DNS Zone ID for custom domains
-#     TF_PROJECT     — project prefix, e.g. "ontodecide"
-#     TF_ENVIRONMENT — target env, e.g. "production" | "staging"
+#
+#   The project name is derived from the GitHub repo name
+#   (github.event.repository.name) and the environment defaults
+#   to "production" (overridable via workflow_dispatch input).
 # ============================================================
 
 name: Terraform · Infrastructure
@@ -81,13 +82,15 @@ defaults:
     working-directory: infrastructure/terraform
 
 env:
-  # Terraform Provider authentication (read by providers.tf)
-  CLOUDFLARE_API_TOKEN: ${{ secrets.TF_API_TOKEN_CLOUDFLARE }}
+  # Terraform Provider authentication — reuse the same CF_API_TOKEN
+  # already configured for deploy-workers.yml (no extra secret needed).
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
   # Input variables (injected via TF_VAR_ convention into variables.tf)
-  TF_VAR_account_id:  ${{ vars.TF_ACCOUNT_ID }}
+  # CF_ACCOUNT_ID is a secret; repo name and environment are hardcoded.
+  TF_VAR_account_id:  ${{ secrets.CF_ACCOUNT_ID }}
   TF_VAR_zone_id:     ${{ vars.TF_ZONE_ID }}
-  TF_VAR_project_name: ${{ vars.TF_PROJECT || 'ontodecide' }}
-  TF_VAR_environment: ${{ github.event.inputs.environment || vars.TF_ENVIRONMENT || 'production' }}
+  TF_VAR_project_name: ${{ github.event.repository.name }}
+  TF_VAR_environment: ${{ github.event.inputs.environment || 'production' }}
 
 jobs:
   # -------------------------------------------------------------
