@@ -85,28 +85,16 @@ resources but apply fails because they already exist" problem.
    bucket. The existing `B2_KEY_ID` / `B2_KEY` GitHub secrets (used by
    ingestion + cleanup workers) work if the key has access to all 3
    buckets; otherwise create a dedicated key.
-3. For **local dev**, create `infrastructure/terraform/backend_override.tf`:
-
-   ```hcl
-   terraform {
-     backend "s3" {
-       bucket  = "ontodecide-prd-terraform-state"
-       endpoint = "s3.us-west-004.backblazeb2.com"
-       region  = "us-west-004"
-     }
-   }
-   ```
-
-   Then export B2 credentials:
+3. The backend config (bucket, endpoint, region, skip flags) is
+   **static** in `versions.tf` — no `-backend-config` flags needed.
+   To use a different bucket, create a local `backend_override.tf`
+   (gitignored via `*_override.tf` pattern).
+4. For **local dev**, just export B2 credentials:
    ```bash
    export AWS_ACCESS_KEY_ID='<B2_KEY_ID>'
    export AWS_SECRET_ACCESS_KEY='<B2_KEY>'
+   terraform -chdir=infrastructure/terraform init
    ```
-
-4. For **CI** (GitHub Actions), the backend config is injected via
-   `-backend-config` flags in `terraform.yml` — see §3.1.
-
-> `backend_override.tf` is in `.gitignore` — never commit it.
 
 ### 2.3 Init + validate (no Cloudflare calls, 100 % offline-safe)
 
@@ -121,11 +109,10 @@ terraform -chdir=infrastructure/terraform validate
 ```bash
 cd infrastructure/terraform
 cp terraform.tfvars.example terraform.tfvars   # then edit values
-# Init with remote state backend (local dev):
-terraform init \
-  -backend-config="bucket=ontodecide-prd-terraform-state" \
-  -backend-config="endpoint=s3.us-west-004.backblazeb2.com" \
-  -backend-config="region=us-west-004"
+# Backend config is static in versions.tf — just export B2 creds and init:
+export AWS_ACCESS_KEY_ID='<B2_KEY_ID>'
+export AWS_SECRET_ACCESS_KEY='<B2_KEY>'
+terraform init
 terraform plan
 ```
 
@@ -189,9 +176,6 @@ B2 secrets (`B2_KEY_ID` / `B2_KEY`) are reused for the remote state backend.
 | **Secret**| `B2_KEY_ID`                   | B2 key ID for remote state backend (shared)|
 | **Secret**| `B2_KEY`                      | B2 key secret for remote state backend (shared)|
 | Variable  | `TF_ZONE_ID`                 | (optional) Zone ID for `api.ontodecide.com`|
-| Variable  | `TF_STATE_BUCKET`             | (optional) B2 bucket name for state (default: `ontodecide-prd-terraform-state`) |
-| Variable  | `TF_STATE_ENDPOINT`           | (optional) B2 S3 endpoint (default: `s3.us-west-004.backblazeb2.com`) |
-| Variable  | `TF_STATE_REGION`             | (optional) B2 region (default: `us-west-004`) |
 
 > **Project name** is derived automatically from the GitHub repo name
 > (`github.event.repository.name`). **Environment** defaults to

@@ -92,14 +92,12 @@ env:
   TF_VAR_project_name: ${{ github.event.repository.name }}
   TF_VAR_environment: ${{ github.event.inputs.environment || 'production' }}
   # ---- Remote state backend (B2 S3-compatible) ----
+  # Backend config (bucket/endpoint/region/skip flags) is STATIC in
+  # versions.tf. Only credentials are injected via env vars.
   # Reuses B2_KEY_ID / B2_KEY secrets already configured for
   # deploy-workers.yml (ingestion + cleanup workers).
-  # The S3 backend reads AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY.
   AWS_ACCESS_KEY_ID:     ${{ secrets.B2_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.B2_KEY }}
-  TF_STATE_BUCKET:       ${{ vars.TF_STATE_BUCKET || 'ontodecide-prd-terraform-state' }}
-  TF_STATE_ENDPOINT:     ${{ vars.TF_STATE_ENDPOINT || 's3.us-west-004.backblazeb2.com' }}
-  TF_STATE_REGION:       ${{ vars.TF_STATE_REGION || 'us-west-004' }}
 
 jobs:
   # -------------------------------------------------------------
@@ -157,13 +155,8 @@ jobs:
           path: infrastructure/terraform/.terraform/providers
           key: tf-providers-${{ runner.os }}-${{ hashFiles('infrastructure/terraform/.terraform.lock.hcl') }}
 
-      - name: Init (with B2 remote state backend)
-        run: |
-          terraform init \
-            -input=false \
-            -backend-config="bucket=${TF_STATE_BUCKET}" \
-            -backend-config="endpoint=${TF_STATE_ENDPOINT}" \
-            -backend-config="region=${TF_STATE_REGION}"
+      - name: Init (B2 remote state backend config is static in versions.tf)
+        run: terraform init -input=false
 
       - name: Plan
         id: plan
@@ -229,13 +222,8 @@ jobs:
           name: tfplan-${{ github.sha }}
           path: infrastructure/terraform/
 
-      - name: Init (with B2 remote state backend)
-        run: |
-          terraform init \
-            -input=false \
-            -backend-config="bucket=${TF_STATE_BUCKET}" \
-            -backend-config="endpoint=${TF_STATE_ENDPOINT}" \
-            -backend-config="region=${TF_STATE_REGION}"
+      - name: Init (B2 remote state backend config is static in versions.tf)
+        run: terraform init -input=false
 
       # Prefer reusing the plan from Phase 2 so the reviewer sees
       # EXACTLY what will be applied.  If the binary is missing
