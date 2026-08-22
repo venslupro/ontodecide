@@ -153,7 +153,8 @@ jobs:
 
       - name: actionlint — validate GitHub Actions YAML
         run: |
-          export PATH=$PATH:$(go env GOPATH)/bin
+          GOPATH_BIN="$(go env GOPATH)/bin"
+          export PATH="$PATH:$GOPATH_BIN"
           actionlint -color \
             .github/workflows/ci.yml \
             .github/workflows/deploy-workers.yml \
