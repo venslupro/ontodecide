@@ -12,7 +12,9 @@ variable "account_id" {
 
 variable "api_token" {
   description = <<-EOT
-    Cloudflare API Token。至少需要以下权限：
+    Cloudflare API Token。仅作文档参考；实际鉴权由
+    CLOUDFLARE_API_TOKEN 环境变量注入 Provider (见 providers.tf)。
+    所需权限：
       Workers Scripts: Edit
       Workers KV Storage: Edit
       D1: Edit
@@ -21,8 +23,9 @@ variable "api_token" {
       Account Settings: Read
       Zone: Read (当使用自定义域名 zone_id 时)
   EOT
-  type        = string
-  sensitive   = true
+  type      = string
+  default   = ""
+  sensitive = true
 }
 
 variable "zone_id" {
