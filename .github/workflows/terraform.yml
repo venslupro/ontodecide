@@ -7,10 +7,11 @@
 #
 # TRIGGERS:
 #   • push to `main` with changes under infrastructure/terraform/**
-#     → automatically runs fmt · validate · plan, then pauses
-#     for MANUAL APPROVAL (environments.production gate).
-#   • pull_request (any branch) with TF file changes
-#     → fmt · validate · plan only (no apply).
+#     → fmt · validate · plan, then pauses for MANUAL APPROVAL
+#     (environments.production gate) before apply.
+#   • pull_request (main / staging) with TF file changes
+#     → fmt · validate · plan (READ-ONLY, no apply).
+#       Reviewers can see the real Cloudflare diff in PR checks.
 #   • workflow_dispatch → manual kickoff from Actions UI.
 #
 # PHASES:
@@ -118,14 +119,14 @@ jobs:
 
   # -------------------------------------------------------------
   # Phase 2 — Plan (runs against REAL Cloudflare state)
+  #          terraform plan is READ-ONLY — it does not create or
+  #          modify resources.  Safe to run on every PR so reviewers
+  #          can see the infra diff before merge.
   # -------------------------------------------------------------
   plan:
     name: Plan
     needs: validate
     runs-on: ubuntu-latest
-    # Only plan against real state on main pushes (not every PR
-    # iteration) to avoid hammering the Cloudflare API.
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     outputs:
       plan_exit: ${{ steps.plan.outputs.exitcode }}
     steps:
