@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "title": "OntoDecide | AI-Driven Intelligent Decision System",
+    "description": "Multi-source data fusion and intelligent decision engine: unify heterogeneous data into a single situational picture and empower decision-makers with real-time AI insights and actionable recommendations.",
+    "ogTitle": "OntoDecide - Intelligent Decision Platform",
+    "ogDescription": "Multi-source data fusion · Real-time AI insight · Ontology-driven modeling"
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "scenarios": "Scenarios",
+    "industries": "Industries",
+    "editions": "Editions",
+    "contact": "Contact",
+    "tryCommunity": "Try Community",
+    "contactSales": "Contact Sales",
+    "langZh": "中文",
+    "langEn": "EN",
+    "skipToMain": "Skip to main content"
+  },
+  "hero": {
+    "badge": "AI-Driven Intelligent Decision System",
+    "title": "Multi-source Data Fusion &",
+    "titleAccent": "Intelligent Decision Engine",
+    "subtitle": "Unify heterogeneous data into a single situational picture, and empower decision-makers and operators with real-time AI insights and actionable recommendations.",
+    "primaryCta": "Try Community Edition",
+    "secondaryCta": "Contact Sales",
+    "stats": {
+      "sources": "Data Sources",
+      "insight": "Real-time Insight",
+      "ontology": "Ontology Modeling"
+    }
+  },
+  "features": {
+    "eyebrow": "Core Features",
+    "title": "Four-in-one Decision Intelligence",
+    "subtitle": "From data fusion to decision recommendations, an end-to-end intelligent decision loop.",
+    "items": {
+      "fusion": {
+        "title": "Multi-source Heterogeneous Data Fusion",
+        "desc": "Unify structured, semi-structured and unstructured data, eliminate silos, and build a single trusted situational data foundation."
+      },
+      "cockpit": {
+        "title": "Real-time Operations Cockpit",
+        "desc": "Visual situational dashboards and real-time metrics, responding to operational changes in seconds."
+      },
+      "simulation": {
+        "title": "AI-driven Scenario Simulation",
+        "desc": "Scenario simulation and causal analysis powered by large models, auto-generating actionable strategies and recommendations."
+      },
+      "ontology": {
+        "title": "Ontology-based Unified Modeling",
+        "desc": "Unify multi-source data semantics with ontology, build domain knowledge graphs, and support explainable reasoning."
+      }
+    }
+  },
+  "scenarios": {
+    "eyebrow": "Scenarios",
+    "title": "Intelligent Empowerment for Complex Decisions",
+    "subtitle": "Covering the full chain of perception, analysis, decision and execution.",
+    "items": {
+      "urban": {
+        "title": "Urban Situational Awareness & Emergency Command",
+        "desc": "Fuse traffic, security, weather and sentiment data to present real-time city status and assist emergency command."
+      },
+      "supply": {
+        "title": "Supply Chain Risk Monitoring & Early Warning",
+        "desc": "Connect upstream and downstream data flows, identify breakpoints and bottlenecks, and warn of supply chain risks."
+      },
+      "industrial": {
+        "title": "Industrial Predictive Maintenance",
+        "desc": "Aggregate IoT sensor and operations data to predict equipment health and fault trends, reducing unplanned downtime."
+      },
+      "finance": {
+        "title": "Financial Anti-fraud & Compliance Monitoring",
+        "desc": "Correlate transaction, behavior and graph data in real time to identify anomalies and support anti-fraud and compliance."
+      },
+      "energy": {
+        "title": "Energy Grid Operation Optimization",
+        "desc": "Fuse load, renewable output and equipment status to optimize grid strategies and improve supply-demand balance."
+      },
+      "intel": {
+        "title": "Multi-source Intelligence Fusion Analysis",
+        "desc": "Model structured and text intelligence uniformly, build correlation networks, and assist analysis and reasoning."
+      }
+    }
+  },
+  "industries": {
+    "eyebrow": "Industries",
+    "title": "For Data-intensive, High-value Decision Industries",
+    "subtitle": "Centered on ontology modeling and AI reasoning, adaptable to complex industry decisions.",
+    "items": {
+      "smartCity": "Smart City",
+      "emergency": "Emergency Management",
+      "finance": "Financial Risk",
+      "manufacturing": "Industrial Manufacturing",
+      "energy": "Energy & Power",
+      "logistics": "Transport & Logistics",
+      "defense": "Defense & Security",
+      "healthcare": "Healthcare"
+    }
+  },
+  "editions": {
+    "eyebrow": "Editions",
+    "title": "Choose the OntoDecide Edition for You",
+    "subtitle": "Community edition for open experience, commercial edition for professional services.",
+    "community": {
+      "name": "Community Edition",
+      "tag": "Free Trial",
+      "desc": "An open trial for developers and researchers to explore core capabilities and product form.",
+      "cta": "Go to Community Edition",
+      "note": "Trial requires an account application with email and application domain info."
+    },
+    "commercial": {
+      "name": "Commercial Edition",
+      "tag": "Professional",
+      "desc": "For enterprise production with advanced capabilities, dedicated support and customized delivery.",
+      "cta": "Contact Sales",
+      "note": "For commercial use, please contact the team via email."
+    },
+    "tableTitle": "Capability Comparison",
+    "categories": {
+      "core": "Core Capabilities",
+      "support": "Service & Support",
+      "deployment": "Deployment & Architecture"
+    },
+    "rows": {
+      "dataFusion": "Multi-source Data Fusion",
+      "ontologyModeling": "Ontology Modeling Tools",
+      "cockpit": "Operations Cockpit",
+      "aiSimulation": "AI Scenario Simulation",
+      "multiTenant": "Multi-tenant Enterprise Architecture",
+      "privateDeploy": "Private Deployment",
+      "industryOntology": "Industry Ontology Customization",
+      "sla": "Dedicated SLA & Technical Support",
+      "security": "Data Security & Compliance Consulting",
+      "training": "Training & Consulting Services",
+      "communitySupport": "Community Support",
+      "usageLimit": "Usage Limits"
+    },
+    "communityLabel": "Community",
+    "commercialLabel": "Commercial",
+    "limited": "Limited",
+    "full": "Full",
+    "included": "Included",
+    "notIncluded": "—",
+    "communityLimited": "Limited Quota",
+    "unlimited": "Unlimited"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Start Your Intelligent Decision Journey",
+    "subtitle": "Apply for a community edition account, or consult on commercial professional services.",
+    "emailLabel": "Team Email",
+    "applyTitle": "Community Edition Account Application",
+    "applyDesc": "Email the team with the following required information, and we will get back to you soon.",
+    "applyFields": {
+      "email": "Your email (required)",
+      "name": "Name / Organization",
+      "domain": "Application domain (required)",
+      "useCase": "Intended use case"
+    },
+    "applyCta": "Send Application Email",
+    "salesTitle": "Commercial Edition Consultation",
+    "salesDesc": "For commercial use, private deployment or customization, contact the team via email.",
+    "salesCta": "Contact Sales",
+    "communityLinkTitle": "Try Community Edition Directly",
+    "communityLinkDesc": "Already have an account? Go straight to the community edition.",
+    "communityLinkCta": "Go to Community"
+  },
+  "footer": {
+    "tagline": "AI-Driven Intelligent Decision System",
+    "product": "Product",
+    "productItems": {
+      "features": "Features",
+      "scenarios": "Scenarios",
+      "editions": "Editions"
+    },
+    "resources": "Resources",
+    "resourcesItems": {
+      "community": "Community Edition",
+      "contact": "Contact"
+    },
+    "copyright": "© {year} OntoDecide. All rights reserved.",
+    "email": "venslu.pro@gmail.com"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "title": "OntoDecide | AI 驱动的智能决策系统",
+    "description": "多源数据融合与智能决策引擎：将多源异构数据统一融合为单一态势视图，通过实时 AI 洞察与可执行建议为决策者与运营人员赋能。",
+    "ogTitle": "OntoDecide - 智能决策平台",
+    "ogDescription": "多源异构数据融合 · 实时 AI 洞察 · 本体驱动建模"
+  },
+  "nav": {
+    "home": "首页",
+    "features": "核心特性",
+    "scenarios": "应用场景",
+    "industries": "行业领域",
+    "editions": "版本对比",
+    "contact": "联系我们",
+    "tryCommunity": "体验社区版",
+    "contactSales": "商业咨询",
+    "langZh": "中文",
+    "langEn": "EN",
+    "skipToMain": "跳转到主要内容"
+  },
+  "hero": {
+    "badge": "AI 驱动的智能决策系统",
+    "title": "多源数据融合与",
+    "titleAccent": "智能决策引擎",
+    "subtitle": "将多源异构数据统一融合为单一态势视图，通过实时 AI 洞察与可执行建议，为决策者与运营人员赋能。",
+    "primaryCta": "体验社区版",
+    "secondaryCta": "商业咨询",
+    "stats": {
+      "sources": "数据源融合",
+      "insight": "实时洞察",
+      "ontology": "本体建模"
+    }
+  },
+  "features": {
+    "eyebrow": "核心特性",
+    "title": "四位一体的决策智能能力",
+    "subtitle": "从数据融合到决策建议，构建端到端的智能决策闭环。",
+    "items": {
+      "fusion": {
+        "title": "多源异构数据融合",
+        "desc": "统一接入结构化、半结构化与非结构化数据，消除数据孤岛，构建单一可信的态势数据底座。"
+      },
+      "cockpit": {
+        "title": "实时运营智能驾驶舱",
+        "desc": "可视化态势大屏与实时指标监控，秒级响应运营变化，让决策者随时掌握全局。"
+      },
+      "simulation": {
+        "title": "AI 驱动情景推演与建议",
+        "desc": "基于大模型的情景推演与因果分析，自动生成可执行的应对策略与决策建议。"
+      },
+      "ontology": {
+        "title": "基于本体的统一数据建模",
+        "desc": "以本体论统一多源数据语义，沉淀领域知识图谱，支撑可解释、可追溯的智能推理。"
+      }
+    }
+  },
+  "scenarios": {
+    "eyebrow": "应用场景",
+    "title": "面向复杂决策场景的智能赋能",
+    "subtitle": "覆盖感知、研判、决策、执行全链路，适配多样化业务需求。",
+    "items": {
+      "urban": {
+        "title": "城市态势感知与应急指挥",
+        "desc": "融合交通、安防、气象、舆情多源数据，实时呈现城市运行态势，辅助应急指挥与资源调度。"
+      },
+      "supply": {
+        "title": "供应链风险监测与预警",
+        "desc": "贯通上下游数据流，识别断链与瓶颈节点，提前预警供应链风险并生成备选方案。"
+      },
+      "industrial": {
+        "title": "工业设备预测性维护",
+        "desc": "汇聚 IoT 传感器与运维数据，预测设备健康状态与故障趋势，降低非计划停机损失。"
+      },
+      "finance": {
+        "title": "金融反欺诈与合规监测",
+        "desc": "实时关联交易、行为与图谱数据，精准识别异常模式，支撑反欺诈与合规审查。"
+      },
+      "energy": {
+        "title": "能源电网运行优化",
+        "desc": "融合负荷、新能源出力与设备状态，优化电网运行策略，提升供需平衡与调度效率。"
+      },
+      "intel": {
+        "title": "多源情报融合分析",
+        "desc": "结构化与文本情报统一建模，构建关联网络，辅助情报研判与态势推演。"
+      }
+    }
+  },
+  "industries": {
+    "eyebrow": "行业领域",
+    "title": "服务于数据密集、决策高价值的行业",
+    "subtitle": "以本体建模与 AI 推理为核心，适配多行业复杂决策需求。",
+    "items": {
+      "smartCity": "智慧城市",
+      "emergency": "应急管理",
+      "finance": "金融风控",
+      "manufacturing": "工业制造",
+      "energy": "能源电力",
+      "logistics": "交通物流",
+      "defense": "国防安全",
+      "healthcare": "医疗健康"
+    }
+  },
+  "editions": {
+    "eyebrow": "版本对比",
+    "title": "选择适合您的 OntoDecide 版本",
+    "subtitle": "社区版开放体验，商业版提供专业服务与企业级能力。",
+    "community": {
+      "name": "社区版",
+      "tag": "免费体验",
+      "desc": "面向开发者与研究者的开放体验版本，了解核心能力与产品形态。",
+      "cta": "前往体验社区版",
+      "note": "体验需申请账号，填写邮箱与应用领域等必要信息。"
+    },
+    "commercial": {
+      "name": "商业版",
+      "tag": "专业服务",
+      "desc": "面向企业生产环境，提供高级能力、专属支持与定制化交付。",
+      "cta": "联系商业咨询",
+      "note": "商业使用请通过邮箱联系项目组。"
+    },
+    "tableTitle": "能力对比",
+    "categories": {
+      "core": "核心能力",
+      "support": "服务与支持",
+      "deployment": "部署与架构"
+    },
+    "rows": {
+      "dataFusion": "多源数据融合",
+      "ontologyModeling": "本体建模工具",
+      "cockpit": "运营驾驶舱",
+      "aiSimulation": "AI 情景推演",
+      "multiTenant": "多租户企业架构",
+      "privateDeploy": "私有化部署",
+      "industryOntology": "行业本体定制",
+      "sla": "专属 SLA 与技术支持",
+      "security": "数据安全与合规咨询",
+      "training": "培训与咨询服务",
+      "communitySupport": "社区支持",
+      "usageLimit": "用量限制"
+    },
+    "communityLabel": "社区版",
+    "commercialLabel": "商业版",
+    "limited": "有限",
+    "full": "完整",
+    "included": "支持",
+    "notIncluded": "—",
+    "communityLimited": "有限用量",
+    "unlimited": "无限制"
+  },
+  "contact": {
+    "eyebrow": "联系我们",
+    "title": "开启您的智能决策之旅",
+    "subtitle": "申请社区版体验账号，或咨询商业版专业服务。",
+    "emailLabel": "项目组邮箱",
+    "applyTitle": "社区版账号申请",
+    "applyDesc": "发送邮件至项目组邮箱，请注明以下必要信息，我们将尽快与您联系。",
+    "applyFields": {
+      "email": "您的邮箱（必填）",
+      "name": "姓名 / 机构",
+      "domain": "应用领域（必填）",
+      "useCase": "预期用途"
+    },
+    "applyCta": "发送申请邮件",
+    "salesTitle": "商业版咨询",
+    "salesDesc": "如需商业使用、私有化部署或定制服务，请通过邮件联系项目组。",
+    "salesCta": "联系商业咨询",
+    "communityLinkTitle": "直接体验社区版",
+    "communityLinkDesc": "已有账号？直接前往社区版登录。",
+    "communityLinkCta": "前往社区版"
+  },
+  "footer": {
+    "tagline": "AI 驱动的智能决策系统",
+    "product": "产品",
+    "productItems": {
+      "features": "核心特性",
+      "scenarios": "应用场景",
+      "editions": "版本对比"
+    },
+    "resources": "资源",
+    "resourcesItems": {
+      "community": "社区版",
+      "contact": "联系我们"
+    },
+    "copyright": "© {year} OntoDecide. 保留所有权利。",
+    "email": "venslu.pro@gmail.com"
+  }
+}
