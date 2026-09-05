@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { COMMUNITY_URL, CONTACT_EMAIL } from '@/lib/site-config';
+import { COMMUNITY_URL } from '@/lib/site-config';
 
 export function Footer(): JSX.Element {
   const t = useTranslations('footer');
@@ -47,13 +47,6 @@ export function Footer(): JSX.Element {
             <p className="mt-4 max-w-md text-sm leading-relaxed text-slate-400">
               {t('tagline')}
             </p>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-brand-300 transition hover:text-brand-200"
-            >
-              <MailIcon />
-              {CONTACT_EMAIL}
-            </a>
           </div>
 
           <div>
@@ -118,27 +111,9 @@ export function Footer(): JSX.Element {
 
         <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-white/10 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center">
           <p>{t('copyright', { year })}</p>
-          <p className="text-slate-500">{CONTACT_EMAIL}</p>
         </div>
       </div>
     </footer>
-  );
-}
-
-function MailIcon(): JSX.Element {
-  return (
-    <svg
-      className="h-4 w-4"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m3 7 9 6 9-6" />
-    </svg>
   );
 }
 
