@@ -55,9 +55,6 @@ export function Hero(): JSX.Element {
                 {t('primaryCta')}
                 <ArrowIcon />
               </a>
-              <a href="#contact" className="btn-outline">
-                {t('secondaryCta')}
-              </a>
             </div>
           </Reveal>
           <Reveal delay={320}>

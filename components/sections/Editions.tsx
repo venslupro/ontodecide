@@ -1,6 +1,5 @@
 import { useTranslations } from 'next-intl';
 import { Reveal } from '@/components/Reveal';
-import { COMMUNITY_URL, CONTACT_EMAIL, buildMailto } from '@/lib/site-config';
 
 type Cell = 'full' | 'limited' | 'included' | 'notIncluded';
 
@@ -28,11 +27,6 @@ const ROWS: Row[] = [
 export function Editions(): JSX.Element {
   const t = useTranslations('editions');
 
-  const salesMailto = buildMailto(
-    'OntoDecide Commercial Edition Inquiry',
-    'Hello OntoDecide team,\n\nI am interested in the Commercial Edition.\n\n- Name / Organization:\n- Industry / Application domain:\n- Intended use case:\n'
-  );
-
   return (
     <section id="editions" className="relative overflow-hidden bg-slate-50 py-20 sm:py-24">
       <div
@@ -46,38 +40,17 @@ export function Editions(): JSX.Element {
           <p className="section-subtitle">{t('subtitle')}</p>
         </Reveal>
 
-        {/* Two slim CTA buttons */}
-        <Reveal delay={60}>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <a
-              href={COMMUNITY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
-              {t('community.cta')}
-              <ArrowIcon />
-            </a>
-            <a href={salesMailto} className="btn-outline">
-              {t('commercial.cta')}
-            </a>
-            <p className="text-xs text-slate-500 sm:ml-2">
-              {t('community.note')} · {CONTACT_EMAIL}
-            </p>
-          </div>
-        </Reveal>
-
         {/* Clean comparison table */}
-        <Reveal delay={120}>
+        <Reveal delay={60}>
           <div className="mt-10 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[560px] border-collapse text-sm">
+              <table className="w-full min-w-[560px] table-fixed border-collapse text-sm">
                 <thead>
                   <tr className="bg-gradient-to-r from-brand-50 to-accent-50">
-                    <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
+                    <th className="w-[44%] px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">
                       {t('tableTitle')}
                     </th>
-                    <th className="w-28 px-4 py-4 text-center">
+                    <th className="w-[28%] px-4 py-4 text-center">
                       <div className="flex flex-col items-center gap-1">
                         <span className="inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200">
                           <ShieldIcon className="h-3.5 w-3.5 text-slate-500" />
@@ -85,7 +58,7 @@ export function Editions(): JSX.Element {
                         </span>
                       </div>
                     </th>
-                    <th className="w-28 px-4 py-4 text-center">
+                    <th className="w-[28%] px-4 py-4 text-center">
                       <div className="flex flex-col items-center gap-1">
                         <span className="inline-flex items-center gap-1 rounded-full bg-brand-600 px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
                           <BuildingIcon className="h-3.5 w-3.5" />
@@ -101,13 +74,13 @@ export function Editions(): JSX.Element {
                       key={row.key}
                       className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'}
                     >
-                      <td className="border-t border-slate-100 px-6 py-3.5 font-medium text-slate-700">
+                      <td className="border-t border-slate-100 px-6 py-4 font-medium text-slate-700">
                         {t(`rows.${row.key}`)}
                       </td>
-                      <td className="border-t border-slate-100 px-4 py-3.5 text-center">
+                      <td className="border-t border-slate-100 px-4 py-4 text-center">
                         <CellBadge cell={row.community} />
                       </td>
-                      <td className="border-t border-slate-100 px-4 py-3.5 text-center">
+                      <td className="border-t border-slate-100 px-4 py-4 text-center">
                         <CellBadge cell={row.commercial} highlight />
                       </td>
                     </tr>
@@ -155,15 +128,6 @@ function CellBadge({
       )}
       {t(cell)}
     </span>
-  );
-}
-
-function ArrowIcon(): JSX.Element {
-  return (
-    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M5 12h14" />
-      <path d="m13 6 6 6-6 6" />
-    </svg>
   );
 }
 
