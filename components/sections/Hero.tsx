@@ -72,7 +72,7 @@ export function Hero(): JSX.Element {
         <Reveal delay={200}>
           <div className="relative">
             <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-brand-500/20 to-accent-400/20 blur-2xl" aria-hidden="true" />
-            <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/60 bg-white/70 shadow-2xl shadow-brand-600/10 backdrop-blur">
+            <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/60 bg-white/70 shadow-2xl shadow-brand-600/10 backdrop-blur">
               <CockpitVisual />
             </div>
             <div className="absolute -bottom-5 -left-5 rounded-xl border border-slate-100 bg-white p-4 shadow-xl">
@@ -97,7 +97,7 @@ function CockpitVisual(): JSX.Element {
   return (
     <svg
       viewBox="0 0 800 500"
-      className="h-full w-full"
+      className="h-full w-full transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
       xmlns="http://www.w3.org/2000/svg"
       aria-label="OntoDecide cockpit visualization"
       role="img"
