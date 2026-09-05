@@ -102,7 +102,7 @@
   },
   "editions": {
     "eyebrow": "Editions",
-    "title": "Choose the OntoDecide Edition for You",
+    "title": "Choose the Right Edition",
     "subtitle": "Community edition for open experience, commercial edition for professional services.",
     "community": {
       "name": "Community Edition",
@@ -150,23 +150,14 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Start Your Intelligent Decision Journey",
-    "subtitle": "Apply for a community edition account, or consult on commercial professional services.",
-    "emailLabel": "Team Email",
-    "applyTitle": "Community Edition Account Application",
-    "applyDesc": "Email the team with the following required information, and we will get back to you soon.",
+    "subtitle": "Consult on commercial professional services for enterprise capabilities, dedicated support and customized delivery.",
+    "welcome": "Feel free to reach us at",
     "applyFields": {
-      "email": "Your email (required)",
       "name": "Name / Organization",
-      "domain": "Application domain (required)",
+      "domain": "Application domain",
       "useCase": "Intended use case"
     },
-    "applyCta": "Send Application Email",
-    "salesTitle": "Commercial Edition Consultation",
-    "salesDesc": "For commercial use, private deployment or customization, contact the team via email.",
-    "salesCta": "Contact Sales",
-    "communityLinkTitle": "Try Community Edition Directly",
-    "communityLinkDesc": "Already have an account? Go straight to the community edition.",
-    "communityLinkCta": "Go to Community"
+    "salesCta": "Contact Sales"
   },
   "footer": {
     "tagline": "AI-Driven Intelligent Decision System",

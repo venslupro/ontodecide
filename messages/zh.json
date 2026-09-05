@@ -102,7 +102,7 @@
   },
   "editions": {
     "eyebrow": "版本对比",
-    "title": "选择适合您的 OntoDecide 版本",
+    "title": "选择适合您的版本",
     "subtitle": "社区版开放体验，商业版提供专业服务与企业级能力。",
     "community": {
       "name": "社区版",
@@ -150,23 +150,14 @@
   "contact": {
     "eyebrow": "联系我们",
     "title": "开启您的智能决策之旅",
-    "subtitle": "申请社区版体验账号，或咨询商业版专业服务。",
-    "emailLabel": "项目组邮箱",
-    "applyTitle": "社区版账号申请",
-    "applyDesc": "发送邮件至项目组邮箱，请注明以下必要信息，我们将尽快与您联系。",
+    "subtitle": "咨询商业版专业服务，获取企业级能力、专属支持与定制化交付方案。",
+    "welcome": "欢迎联系我们：",
     "applyFields": {
-      "email": "您的邮箱（必填）",
       "name": "姓名 / 机构",
-      "domain": "应用领域（必填）",
+      "domain": "应用领域",
       "useCase": "预期用途"
     },
-    "applyCta": "发送申请邮件",
-    "salesTitle": "商业版咨询",
-    "salesDesc": "如需商业使用、私有化部署或定制服务，请通过邮件联系项目组。",
-    "salesCta": "联系商业咨询",
-    "communityLinkTitle": "直接体验社区版",
-    "communityLinkDesc": "已有账号？直接前往社区版登录。",
-    "communityLinkCta": "前往社区版"
+    "salesCta": "联系商业咨询"
   },
   "footer": {
     "tagline": "AI 驱动的智能决策系统",

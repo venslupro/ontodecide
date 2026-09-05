@@ -35,6 +35,9 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(SITE_URL),
+    verification: {
+      google: 'w4jJfM2FK6kCLlmnpZdnVa17ByyfQmDT8Q5WFxUMT9U',
+    },
     title: titles[locale] ?? titles.en,
     description: descriptions[locale] ?? descriptions.en,
     keywords: [
@@ -63,7 +66,7 @@ export async function generateMetadata({
     icons: {
       icon: [
         {
-          url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232563eb'/%3E%3Cpath d='M6 16l3-3 3 2 4-6 2 3' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M5 20h14' stroke='white' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='9' cy='13' r='1.4' fill='white'/%3E%3Ccircle cx='12' cy='15' r='1.4' fill='white'/%3E%3Ccircle cx='16' cy='9' r='1.4' fill='white'/%3E%3C/svg%3E",
+          url: `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232563eb'/%3E%3Cpath d='M6 16l3-3 3 2 4-6 2 3' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M5 20h14' stroke='white' stroke-width='2' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='9' cy='13' r='1.4' fill='white'/%3E%3Ccircle cx='12' cy='15' r='1.4' fill='white'/%3E%3Ccircle cx='16' cy='9' r='1.4' fill='white'/%3E%3C/svg%3E`,
           type: 'image/svg+xml',
         },
       ],
