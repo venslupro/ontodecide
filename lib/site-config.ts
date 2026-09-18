@@ -1,5 +1,5 @@
-export const SITE_URL = 'https://ontodecide-web.vercel.app';
-export const COMMUNITY_URL = 'https://ontodecide-prd-web.pages.dev/';
+export const SITE_URL = 'https://ontodecide.vercel.app';
+export const COMMUNITY_URL = 'https://ontodecide-ce.pages.dev/';
 export const CONTACT_EMAIL = 'venslu.pro@gmail.com';
 export const SITE_NAME = 'OntoDecide';
 
