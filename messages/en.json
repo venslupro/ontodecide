@@ -1,22 +1,16 @@
 {
   "meta": {
     "title": "OntoDecide | AI-Driven Intelligent Decision System",
-    "description": "Multi-source data fusion and intelligent decision engine: unify heterogeneous data into a single situational picture and empower decision-makers with real-time AI insights and actionable recommendations.",
-    "ogTitle": "OntoDecide - Intelligent Decision Platform",
-    "ogDescription": "Multi-source data fusion · Real-time AI insight · Ontology-driven modeling"
+    "description": "Multi-source data fusion and intelligent decision engine: unify heterogeneous data into a single situational picture and empower decision-makers with real-time AI insights and actionable recommendations."
   },
   "nav": {
-    "home": "Home",
     "features": "Features",
     "scenarios": "Scenarios",
     "industries": "Industries",
     "editions": "Editions",
     "contact": "Contact",
-    "tryCommunity": "Try Community",
-    "contactSales": "Contact Sales",
     "langZh": "中文",
-    "langEn": "EN",
-    "skipToMain": "Skip to main content"
+    "langEn": "EN"
   },
   "hero": {
     "badge": "AI-Driven Intelligent Decision System",
@@ -24,7 +18,6 @@
     "titleAccent": "Intelligent Decision Engine",
     "subtitle": "Unify heterogeneous data into a single situational picture, and empower decision-makers and operators with real-time AI insights and actionable recommendations.",
     "primaryCta": "Try Community Edition",
-    "secondaryCta": "Contact Sales",
     "stats": {
       "sources": "Data Sources",
       "insight": "Real-time Insight",
@@ -104,26 +97,7 @@
     "eyebrow": "Editions",
     "title": "Choose the Right Edition",
     "subtitle": "Community edition for open experience, commercial edition for professional services.",
-    "community": {
-      "name": "Community Edition",
-      "tag": "Free Trial",
-      "desc": "An open trial for developers and researchers to explore core capabilities and product form.",
-      "cta": "Go to Community Edition",
-      "note": "Trial requires an account application with email and application domain info."
-    },
-    "commercial": {
-      "name": "Commercial Edition",
-      "tag": "Professional",
-      "desc": "For enterprise production with advanced capabilities, dedicated support and customized delivery.",
-      "cta": "Contact Sales",
-      "note": "For commercial use, please contact the team via email."
-    },
     "tableTitle": "Capability Comparison",
-    "categories": {
-      "core": "Core Capabilities",
-      "support": "Service & Support",
-      "deployment": "Deployment & Architecture"
-    },
     "rows": {
       "dataFusion": "Multi-source Data Fusion",
       "ontologyModeling": "Ontology Modeling Tools",
@@ -143,9 +117,7 @@
     "limited": "Limited",
     "full": "Full",
     "included": "Included",
-    "notIncluded": "—",
-    "communityLimited": "Limited Quota",
-    "unlimited": "Unlimited"
+    "notIncluded": "—"
   },
   "contact": {
     "eyebrow": "Contact",

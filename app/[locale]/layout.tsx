@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { LOCALES, isLocale, type Locale } from '@/i18n/request';
-import { SITE_URL } from '@/lib/site-config';
+import { SITE_URL, COMMUNITY_URL } from '@/lib/site-config';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import '../globals.css';
@@ -94,7 +94,7 @@ export default async function LocaleLayout({
           <main id="main" className="relative">
             {children}
           </main>
-          <Footer />
+          <Footer communityUrl={COMMUNITY_URL} />
         </NextIntlClientProvider>
       </body>
     </html>

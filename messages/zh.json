@@ -1,22 +1,16 @@
 {
   "meta": {
     "title": "OntoDecide | AI 驱动的智能决策系统",
-    "description": "多源数据融合与智能决策引擎：将多源异构数据统一融合为单一态势视图，通过实时 AI 洞察与可执行建议为决策者与运营人员赋能。",
-    "ogTitle": "OntoDecide - 智能决策平台",
-    "ogDescription": "多源异构数据融合 · 实时 AI 洞察 · 本体驱动建模"
+    "description": "多源数据融合与智能决策引擎：将多源异构数据统一融合为单一态势视图，通过实时 AI 洞察与可执行建议为决策者与运营人员赋能。"
   },
   "nav": {
-    "home": "首页",
     "features": "核心特性",
     "scenarios": "应用场景",
     "industries": "行业领域",
     "editions": "版本对比",
     "contact": "联系我们",
-    "tryCommunity": "体验社区版",
-    "contactSales": "商业咨询",
     "langZh": "中文",
-    "langEn": "EN",
-    "skipToMain": "跳转到主要内容"
+    "langEn": "EN"
   },
   "hero": {
     "badge": "AI 驱动的智能决策系统",
@@ -24,7 +18,6 @@
     "titleAccent": "智能决策引擎",
     "subtitle": "将多源异构数据统一融合为单一态势视图，通过实时 AI 洞察与可执行建议，为决策者与运营人员赋能。",
     "primaryCta": "体验社区版",
-    "secondaryCta": "商业咨询",
     "stats": {
       "sources": "数据源融合",
       "insight": "实时洞察",
@@ -104,26 +97,7 @@
     "eyebrow": "版本对比",
     "title": "选择适合您的版本",
     "subtitle": "社区版开放体验，商业版提供专业服务与企业级能力。",
-    "community": {
-      "name": "社区版",
-      "tag": "免费体验",
-      "desc": "面向开发者与研究者的开放体验版本，了解核心能力与产品形态。",
-      "cta": "前往体验社区版",
-      "note": "体验需申请账号，填写邮箱与应用领域等必要信息。"
-    },
-    "commercial": {
-      "name": "商业版",
-      "tag": "专业服务",
-      "desc": "面向企业生产环境，提供高级能力、专属支持与定制化交付。",
-      "cta": "联系商业咨询",
-      "note": "商业使用请通过邮箱联系项目组。"
-    },
     "tableTitle": "能力对比",
-    "categories": {
-      "core": "核心能力",
-      "support": "服务与支持",
-      "deployment": "部署与架构"
-    },
     "rows": {
       "dataFusion": "多源数据融合",
       "ontologyModeling": "本体建模工具",
@@ -143,9 +117,7 @@
     "limited": "有限",
     "full": "完整",
     "included": "支持",
-    "notIncluded": "—",
-    "communityLimited": "有限用量",
-    "unlimited": "无限制"
+    "notIncluded": "—"
   },
   "contact": {
     "eyebrow": "联系我们",

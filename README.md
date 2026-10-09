@@ -72,14 +72,17 @@ npm run start    # serve the production build locally
 
 This project is a static marketing website and does not expose a
 programmatic API. Runtime behavior is driven by the configuration in
-`lib/site-config.ts`:
+`lib/site-config.ts`. The site URL, community edition URL, and contact
+email can be overridden at deploy time via Vercel environment variables.
+Values are read in server components; the community URL is passed to the
+client `Footer` component as a prop:
 
-| Variable        | Description                                   |
-| --------------- | --------------------------------------------- |
-| `SITE_URL`      | Canonical site URL used for metadata base.    |
-| `COMMUNITY_URL` | External URL of the community edition.        |
-| `CONTACT_EMAIL` | Recipient for commercial inquiry mailto links.|
-| `SITE_NAME`     | Site display name.                            |
+| Variable                        | Env Var               | Description                                   |
+| ------------------------------- | --------------------- | --------------------------------------------- |
+| `SITE_URL`                      | `SITE_URL`            | Canonical site URL used for metadata base.    |
+| `COMMUNITY_URL`                 | `COMMUNITY_URL`       | External URL of the community edition.        |
+| `CONTACT_EMAIL`                 | `CONTACT_EMAIL`       | Recipient for commercial inquiry mailto links.|
+| `SITE_NAME`                     | —                     | Site display name.                            |
 
 SEO metadata (title, description, keywords, OpenGraph, Twitter cards,
 favicon, and search-engine verification) is defined in

@@ -1,9 +1,12 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { COMMUNITY_URL } from '@/lib/site-config';
 
-export function Footer(): JSX.Element {
+interface FooterProps {
+  readonly communityUrl: string;
+}
+
+export function Footer({ communityUrl }: FooterProps): JSX.Element {
   const t = useTranslations('footer');
   const year = new Date().getFullYear();
 
@@ -44,9 +47,6 @@ export function Footer(): JSX.Element {
                 </span>
               </div>
             </div>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-slate-400">
-              {t('tagline')}
-            </p>
           </div>
 
           <div>
@@ -88,7 +88,7 @@ export function Footer(): JSX.Element {
             <ul className="mt-4 space-y-3 text-sm">
               <li>
                 <a
-                  href={COMMUNITY_URL}
+                  href={communityUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-slate-300 transition hover:text-white"
